@@ -1,2 +1,2 @@
 # Django-vue-boot
-####これはDjangoとVueのチュートリアルとして作成しました。
+これはDjangoとVueのチュートリアルとして作成しました。

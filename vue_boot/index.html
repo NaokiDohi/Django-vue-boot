@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue Boot</title>
+    <style>
+      .hoge {
+        font-size: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>Hello Vue.js</h1>
+      {{msg + name}}<br />
+      <a v-bind:href="link">Vue ja</a><br />
+      <a :[atr]="link2">Vue en</a><br />
+      <img :[atr2]="img" /><br />
+
+      <a v-if="authorization" :href="link2">Vue en</a><br />
+      <img v-if="authorization" v-bind:src="img" /><br />
+
+      <p>{{age}}</p>
+      <div v-show="age != 0">
+        <p v-if="age < 30">若い</p>
+        <p v-else-if="age >= 30 && age <60">中年</p>
+        <p v-else="age >= 60">老人</p>
+      </div>
+
+      <ul>
+        <li v-for="book in books">
+          {{book}}
+        </li>
+      </ul>
+      <ul>
+        <li v-for="book2 in books2" :key="book2.id">
+          {{book2.title}}:{{book2.year}}
+        </li>
+      </ul>
+
+      <button v-on:click="AddToAage">click me</button><br />
+      <button @click="authorization = !authorization">change</button><br />
+      <p @[atr3]="authorization = !authorization">ここにマウスを載せてね</p>
+
+      <h2 :style="{fontSize:fontSize + 'px', color:color}">hoge</h2>
+      <div :class="{hoge:authorization}">hogehoge</div>
+
+      {{FullMsg()}}<br />
+      {{FullMsg2}}<br />
+      <input v-model="name" placeholder="Type your naem" /><br />
+      <input type="radio" id="radioA" value="A" v-model="option" />
+      <label for="radioA">A</label>
+      <input type="radio" id="radioB" value="B" v-model="option" />
+      <label for="radioB">B</label>
+      <p>option:{{option}}</p>
+      <test-component />
+      <test-component />
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          msg: "Hello from ",
+          name: "Naoki",
+          link: "https://jp.vuejs.org/",
+          link2: "https://vuejs.org/",
+          img: "img/vue-global-local.png",
+          atr: "href",
+          atr2: "src",
+          atr3: "mouseover",
+          authorization: false,
+          age: 10,
+          books: ["風の又三郎", "俺か俺以外か", "hoge"],
+          books2: [
+            { id: 0, title: "風の又三郎", year: 1934 },
+            { id: 1, title: "俺か俺以外か", year: 2018 },
+            { id: 2, title: "hoge", year: 1999 },
+          ],
+          fontSize: 50,
+          color: "red",
+          option: "A",
+        },
+        methods: {
+          //AddToAage: function () {
+          //  this.age += 10;
+          //},
+          AddToAage() {
+            this.age += 10;
+          },
+          FullMsg() {
+            return this.msg + this.name;
+          },
+        },
+        computed: {
+          FullMsg2() {
+            return this.msg + this.name;
+          },
+        },
+        created: function () {
+          console.log("created");
+          this.name = "Type your name";
+        },
+      });
+      Vue.component("test-component", {
+        data: function () {
+          return {
+            number: Math.round(Math.random() * 100),
+          };
+        },
+        template: `<h2>Number is {{number}}</h2>`,
+      });
+    </script>
+  </body>
+</html>
